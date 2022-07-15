@@ -19,23 +19,17 @@ try:
         db='chatbotDB',
         charset='utf8'
     )
-    # sql문
+    id = 1
     sql = '''
-    CREATE TABLE tb_student(
-        id int primary key auto_increment not null,
-        name varchar(32),
-        age int,
-        address varchar(32)
-    ) ENGINE = InnoDB DEFAULT CHARSET = utf8 
-    '''
+        DELETE from tb_student where id=%d
+    ''' % id
 
-    # 생성
     with db.cursor() as cursor:
         cursor.execute(sql)
-# 에러
+        db.commit()
 except Exception as e:
     print(e)
-# 생성후 연결 종료
+
 finally:
     if db is not None:
         db.close()
