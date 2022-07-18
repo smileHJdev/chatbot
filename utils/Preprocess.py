@@ -1,8 +1,31 @@
-from konlpy.tag import Okt
+from konlpy.tag import Komoran
 
-jvm_path = "/Library/Java/JavaVirtualMachines/zulu-15.jdk/Contents/Home/bin/java"
-okt = Okt(jvmpath=jvm_path)
-text = "아 나는 역시 밤에 일이 잘된다."
+#전처리 과정 시작
+class Preprocess:
+    def __init__(self, userdic=None):  # 생성자
+        # 형태소 분석기 초기화
+        self.komoran = Komoran(userdic=userdic)
 
+        # 제외할 품사
+        # 참조 : https://docs.komoran.kr/firststep/postypes.html
+        # 관계언 제거, 기호제거, 어미 제거, 접미사 제거
+        self.exclusion_tags = [
+            'JKS', 'JKC', 'JKG', 'JKO', 'JKB', 'JKV', 'JKQ',
+            'JX', 'JC',
+            'SF', 'SP', 'SS', 'SE', 'SO',
+            'EP', 'EF', 'EC', 'ETN', 'ETM',
+            'XSN', 'XSV', 'XSA'
+        ]
 
-print(okt.morphs(text, stem=True))
+    # 형태소 분석기 POS 태거
+    def pos(self, sentence):
+        return self.komoran.pos(sentence)
+
+    # 불용어 제거 후 필요한 품사 정보만 가져오기
+    def get_keywords(self, pos, without_tag=False):
+        f = lambda x: x in self.exclusion_tags
+        word_list = []
+        for p in pos:
+            if f(p[1]) is False:
+                word_list.append(p if without_tag is False else p[0])
+        return word_list

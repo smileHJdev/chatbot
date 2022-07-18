@@ -1,13 +1,19 @@
-from dotenv import load_dotenv
+import sys
 import os
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+from config.DatabaseConfig import *
 import pymysql
 
 
-load_dotenv()
-HOST = os.environ.get("HOST")
-PORT = int(os.environ.get("PORT"))
-USER_NAME = os.environ.get("USER_NAME")
-PASSWD = os.environ.get("PASSWD")
+import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+# load_dotenv()
+# HOST = os.environ.get("HOST")
+# PORT = int(os.environ.get("PORT"))
+# USER_NAME = os.environ.get("USER_NAME")
+# PASSWD = os.environ.get("PASSWD")
 
 db = None
 try:
